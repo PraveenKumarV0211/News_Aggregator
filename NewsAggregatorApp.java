@@ -11,16 +11,49 @@ public class NewsAggregatorApp {
     }
 
     private void initSampleData() {
-        ingestArticle(new Article(1, "Breaking News: Java 21 Released", "Java 21 includes exciting new features...",
+        ingestArticle(new Article(1, "Breaking News: Java 21 Released",
+                "Java 21 includes exciting new features and enhancements that streamline development and improve runtime performance. " +
+                        "Key additions include pattern matching for switch statements, virtual threads for improved concurrency, and record patterns. " +
+                        "These updates aim to simplify code and reduce boilerplate, making Java more modern and expressive. " +
+                        "Developers around the world are already exploring the new capabilities and reporting positive feedback on its impact in production environments. " +
+                        "With these features, Java continues to stay competitive in the evolving software development ecosystem.",
                 new MyList<>(new String[]{"java", "programming", "tech"}), "2025-03-20", 150));
-        ingestArticle(new Article(2, "Stock Market Update", "Tech stocks soar after strong earnings...",
+
+        ingestArticle(new Article(2, "Stock Market Update",
+                "Tech stocks soar after strong earnings reports from major companies like Apple, Microsoft, and Google. " +
+                        "Investors are showing renewed confidence as quarterly results beat analyst expectations. " +
+                        "The NASDAQ index jumped by 3.5% in a single day, fueled by growth in AI and cloud computing divisions. " +
+                        "Meanwhile, economic data shows consumer spending remains stable, easing recession fears. " +
+                        "Financial analysts suggest that this may signal a rebound for the broader economy. " +
+                        "Small-cap tech firms are also experiencing upward momentum, suggesting a potential bull run on the horizon.",
                 new MyList<>(new String[]{"stocks", "economy", "finance"}), "2025-03-21", 85));
-        ingestArticle(new Article(3, "AI Research Advances", "Researchers announce a new AI breakthrough...",
+
+        ingestArticle(new Article(3, "AI Research Advances",
+                "Researchers announce a new AI breakthrough that significantly improves natural language understanding and reasoning capabilities. " +
+                        "The system, trained on multimodal data including images and video, demonstrates superior performance on benchmark tests. " +
+                        "This advancement is seen as a step closer to general AI, with the potential to revolutionize industries from healthcare to education. " +
+                        "The research team emphasized ethical considerations, open sourcing part of the model to encourage transparency. " +
+                        "Experts are calling this a major leap in deep learning, comparable to the release of transformers or diffusion models.",
                 new MyList<>(new String[]{"ai", "research", "tech"}), "2025-03-19", 230));
-        ingestArticle(new Article(4, "Sports Championship Highlights", "The final match was a thrilling encounter...",
+
+        ingestArticle(new Article(4, "Sports Championship Highlights",
+                "The final match of the national championship was a thrilling encounter that kept fans on the edge of their seats. " +
+                        "Team Thunderhawks faced off against the defending champions, the Silver Blades, in a neck-and-neck contest. " +
+                        "With a last-minute goal in overtime, Thunderhawks secured a historic win, ending a decade-long title drought. " +
+                        "Commentators praised the strategy and resilience shown by both teams. " +
+                        "The stadium was packed with over 50,000 fans, and millions tuned in worldwide. " +
+                        "The MVP of the match, forward James Daniels, delivered a stunning performance that sealed the victory.",
                 new MyList<>(new String[]{"sports", "championship"}), "2025-03-22", 100));
-        ingestArticle(new Article(5, "Local Food Festival", "Annual gourmet festival sees record turnout...",
+
+        ingestArticle(new Article(5, "Local Food Festival",
+                "The annual gourmet food festival saw record turnout this year, with thousands gathering to enjoy local delicacies and international cuisines. " +
+                        "From artisan pastries to authentic street food, the event offered a vibrant celebration of culinary diversity. " +
+                        "Live music, cooking demos, and farmer’s markets added to the festive atmosphere. " +
+                        "Organizers emphasized sustainability, with compostable utensils and local sourcing. " +
+                        "Several up-and-coming chefs showcased their creativity, earning praise from critics and food lovers alike. " +
+                        "The event not only boosted tourism but also raised funds for local food banks and community kitchens.",
                 new MyList<>(new String[]{"food", "festival", "local"}), "2025-03-18", 40));
+
     }
 
     private void ingestArticle(Article article) {
