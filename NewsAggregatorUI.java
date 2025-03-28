@@ -1,14 +1,7 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import java.util.List;
-
-public class NewsAggregatorUI extends JFrame {
+class NewsAggregatorUI extends javax.swing.JFrame {
     private final NewsAggregatorApp app;
-
-    private JTextField searchField;
-    private JPanel articleListPanel;
+    private javax.swing.JTextField searchField;
+    private javax.swing.JPanel articleListPanel;
 
     public NewsAggregatorUI(NewsAggregatorApp app) {
         this.app = app;
@@ -16,137 +9,92 @@ public class NewsAggregatorUI extends JFrame {
         setTitle("News Aggregator");
         setSize(800, 600);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 
     private void buildUI() {
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        searchField = new JTextField(15);
-        JButton searchButton = new JButton("Search Keyword");
-        JButton showTrendingButton = new JButton("Show Top Trending");
-        JButton sortByDateButton = new JButton("Sort by Date");
-        JButton sortByPopularityButton = new JButton("Sort by Popularity");
+        javax.swing.JPanel topPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        searchField = new javax.swing.JTextField(15);
+        javax.swing.JButton searchButton = new javax.swing.JButton("Search Keyword");
+        javax.swing.JButton showTrendingButton = new javax.swing.JButton("Show Top Trending");
+        javax.swing.JButton sortByDateButton = new javax.swing.JButton("Sort by Date");
+        javax.swing.JButton sortByPopularityButton = new javax.swing.JButton("Sort by Popularity");
 
-        topPanel.add(new JLabel("Keyword:"));
+        topPanel.add(new javax.swing.JLabel("Keyword:"));
         topPanel.add(searchField);
         topPanel.add(searchButton);
         topPanel.add(showTrendingButton);
         topPanel.add(sortByDateButton);
         topPanel.add(sortByPopularityButton);
 
-        articleListPanel = new JPanel();
-        articleListPanel.setLayout(new BoxLayout(articleListPanel, BoxLayout.Y_AXIS));
-        JScrollPane scrollPane = new JScrollPane(articleListPanel);
+        articleListPanel = new javax.swing.JPanel();
+        articleListPanel.setLayout(new javax.swing.BoxLayout(articleListPanel, javax.swing.BoxLayout.Y_AXIS));
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(articleListPanel);
 
-        add(topPanel, BorderLayout.NORTH);
-        add(scrollPane, BorderLayout.CENTER);
+        add(topPanel, java.awt.BorderLayout.NORTH);
+        add(scrollPane, java.awt.BorderLayout.CENTER);
 
-        searchButton.addActionListener(e -> onSearch());
-        showTrendingButton.addActionListener(e -> onShowTrending());
-        sortByDateButton.addActionListener(e -> onSortByDate());
-        sortByPopularityButton.addActionListener(e -> onSortByPopularity());
+        searchButton.addActionListener(e -> loadArticles(app.getArticlesByKeyword(searchField.getText().trim().toLowerCase())));
+        showTrendingButton.addActionListener(e -> loadArticles(app.getTopTrendingArticles(3)));
+        sortByDateButton.addActionListener(e -> sortAndReload("date"));
+        sortByPopularityButton.addActionListener(e -> sortAndReload("popularity"));
 
-        loadAllArticlesToPanel(app.articlesById.values());
+        loadArticles(app.getAllArticles());
     }
 
-    private void addArticleCard(Article article) {
-        JPanel card = new JPanel(new BorderLayout());
-        card.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 70));
-
-        JLabel titleLabel = new JLabel("<html><b>" + article.title + "</b> (" + article.date + ")</html>");
-        JButton viewButton = new JButton("View");
-
-        viewButton.addActionListener(e -> openArticleWindow(article));
-
-        card.add(titleLabel, BorderLayout.CENTER);
-        card.add(viewButton, BorderLayout.EAST);
-
-        articleListPanel.add(card);
+    private void loadArticles(MyList<Article> articles) {
+        articleListPanel.removeAll();
+        for (int i = 0; i < articles.size(); i++) {
+            addArticleCard(articles.get(i));
+        }
         articleListPanel.revalidate();
         articleListPanel.repaint();
     }
 
+    private void addArticleCard(Article article) {
+        javax.swing.JPanel card = new javax.swing.JPanel(new java.awt.BorderLayout());
+        card.setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.GRAY));
+        card.setMaximumSize(new java.awt.Dimension(Integer.MAX_VALUE, 70));
+
+        javax.swing.JLabel titleLabel = new javax.swing.JLabel("<html><b>" + article.title + "</b> (" + article.date + ")</html>");
+        javax.swing.JButton viewButton = new javax.swing.JButton("View");
+
+        viewButton.addActionListener(e -> openArticleWindow(article));
+
+        card.add(titleLabel, java.awt.BorderLayout.CENTER);
+        card.add(viewButton, java.awt.BorderLayout.EAST);
+
+        articleListPanel.add(card);
+    }
+
     private void openArticleWindow(Article article) {
-        JFrame detailFrame = new JFrame(article.title);
-        JTextArea contentArea = new JTextArea(article.content);
+        javax.swing.JFrame detailFrame = new javax.swing.JFrame(article.title);
+        javax.swing.JTextArea contentArea = new javax.swing.JTextArea(article.content);
         contentArea.setWrapStyleWord(true);
         contentArea.setLineWrap(true);
         contentArea.setEditable(false);
 
-        detailFrame.add(new JScrollPane(contentArea));
+        detailFrame.add(new javax.swing.JScrollPane(contentArea));
         detailFrame.setSize(400, 300);
         detailFrame.setLocationRelativeTo(this);
         detailFrame.setVisible(true);
     }
 
-    private void loadAllArticlesToPanel(Collection<Article> articles) {
-        articleListPanel.removeAll();
-        for (Article article : articles) {
-            addArticleCard(article);
-        }
-    }
-
-    private void onSearch() {
-        String keyword = searchField.getText().trim().toLowerCase();
-        articleListPanel.removeAll();
-
-        if (keyword.isEmpty()) {
-            loadAllArticlesToPanel(app.articlesById.values());
-            return;
-        }
-
-        if (!app.articlesByKeyword.containsKey(keyword)) {
-            JOptionPane.showMessageDialog(this, "No articles found for keyword: " + keyword);
-            return;
-        }
-
-        Set<Integer> ids = app.articlesByKeyword.get(keyword);
-        for (Integer id : ids) {
-            Article art = app.articlesById.get(id);
-            addArticleCard(art);
-        }
-    }
-
-    private void onShowTrending() {
-        articleListPanel.removeAll();
-        List<Article> topArticles = new ArrayList<>(app.trendingHeap);
-        topArticles.sort((a1, a2) -> Integer.compare(a2.popularity, a1.popularity));
-        for (int i = 0; i < Math.min(3, topArticles.size()); i++) {
-            addArticleCard(topArticles.get(i));
-        }
-    }
-
-    private void onSortByDate() {
-        List<Article> articles = getCurrentDisplayedArticles();
-        articles.sort((a1, a2) -> a2.date.compareTo(a1.date));
-        loadAllArticlesToPanel(articles);
-    }
-
-    private void onSortByPopularity() {
-        List<Article> articles = getCurrentDisplayedArticles();
-        articles.sort((a1, a2) -> Integer.compare(a2.popularity, a1.popularity));
-        loadAllArticlesToPanel(articles);
-    }
-
-    private List<Article> getCurrentDisplayedArticles() {
-        List<Article> displayed = new ArrayList<>();
-        for (Component comp : articleListPanel.getComponents()) {
-            if (comp instanceof JPanel panel) {
-                for (Component c : panel.getComponents()) {
-                    if (c instanceof JLabel label) {
-                        String text = label.getText();
-                        for (Article a : app.articlesById.values()) {
-                            if (text.contains(a.title)) {
-                                displayed.add(a);
-                                break;
-                            }
-                        }
-                    }
+    private void sortAndReload(String sortBy) {
+        MyList<Article> articles = app.getAllArticles();
+        for (int i = 0; i < articles.size(); i++) {
+            for (int j = i + 1; j < articles.size(); j++) {
+                boolean condition = sortBy.equals("date") ?
+                        articles.get(i).date.compareTo(articles.get(j).date) < 0 :
+                        articles.get(i).popularity < articles.get(j).popularity;
+                if (!condition) {
+                    Article temp = articles.get(i);
+                    articles.set(i, articles.get(j));
+                    articles.set(j, temp);
                 }
             }
         }
-        return displayed;
+        loadArticles(articles);
     }
 }
