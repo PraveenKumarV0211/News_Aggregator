@@ -84,15 +84,15 @@ class NewsAggregatorUI extends javax.swing.JFrame {
     }
 
     private void openEnhancedArticleWindow(Article article) {
-        // Create a frame for the enhanced article view
+
         javax.swing.JFrame detailFrame = new javax.swing.JFrame("AI-Enhanced: " + article.title);
         detailFrame.setSize(700, 600);
         detailFrame.setLocationRelativeTo(this);
 
-        // Create tabbed pane for different views
+
         javax.swing.JTabbedPane tabbedPane = new javax.swing.JTabbedPane();
 
-        // Original content tab
+
         javax.swing.JPanel originalPanel = new javax.swing.JPanel(new java.awt.BorderLayout());
         javax.swing.JTextArea contentArea = new javax.swing.JTextArea(article.content);
         contentArea.setWrapStyleWord(true);
@@ -101,7 +101,7 @@ class NewsAggregatorUI extends javax.swing.JFrame {
         contentArea.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 14));
         originalPanel.add(new javax.swing.JScrollPane(contentArea), java.awt.BorderLayout.CENTER);
 
-        // Summary tab
+
         javax.swing.JPanel summaryPanel = new javax.swing.JPanel(new java.awt.BorderLayout());
         javax.swing.JTextArea summaryArea = new javax.swing.JTextArea("Generating summary with AI...");
         summaryArea.setWrapStyleWord(true);
@@ -110,7 +110,7 @@ class NewsAggregatorUI extends javax.swing.JFrame {
         summaryArea.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 14));
         summaryPanel.add(new javax.swing.JScrollPane(summaryArea), java.awt.BorderLayout.CENTER);
 
-        // Sentiment Analysis tab
+
         javax.swing.JPanel sentimentPanel = new javax.swing.JPanel(new java.awt.BorderLayout());
         javax.swing.JTextArea sentimentArea = new javax.swing.JTextArea("Analyzing sentiment with AI...");
         sentimentArea.setWrapStyleWord(true);
@@ -119,7 +119,7 @@ class NewsAggregatorUI extends javax.swing.JFrame {
         sentimentArea.setFont(new java.awt.Font("Arial", java.awt.Font.PLAIN, 14));
         sentimentPanel.add(new javax.swing.JScrollPane(sentimentArea), java.awt.BorderLayout.CENTER);
 
-        // Related Topics tab
+
         javax.swing.JPanel relatedPanel = new javax.swing.JPanel(new java.awt.BorderLayout());
         javax.swing.JTextArea relatedArea = new javax.swing.JTextArea("Finding related topics with AI...");
         relatedArea.setWrapStyleWord(true);

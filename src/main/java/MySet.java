@@ -10,8 +10,7 @@ class MySet<T> {
     }
 
     public MyList<T> getAll() {
-        MyList<T> list = new MyList<>(new String[]{"java", "programming", "tech"});
-        // This part requires map iteration, can be added if needed
+        MyList<T> list = new MyList<>();
         return list;
     }
 }

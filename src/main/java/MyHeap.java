@@ -1,5 +1,5 @@
 class MyHeap<T> {
-    private MyList<T> heap = new MyList<>(new String[]{"java", "programming", "tech"});
+    private MyList<T> heap = new MyList<>();
     private java.util.Comparator<T> comparator;
 
     public MyHeap(java.util.Comparator<T> comparator) {
@@ -29,22 +29,31 @@ class MyHeap<T> {
     private void bubbleUp(int index) {
         while (index > 0) {
             int parent = (index - 1) / 2;
+
             if (comparator.compare(heap.get(index), heap.get(parent)) > 0) {
                 swap(index, parent);
                 index = parent;
-            } else break;
+            } else {
+                break;
+            }
         }
     }
 
     private void bubbleDown(int index) {
         int size = heap.size();
         while (index < size) {
-            int left = 2 * index + 1, right = 2 * index + 2, largest = index;
-            if (left < size && comparator.compare(heap.get(left), heap.get(largest)) > 0)
+            int left = 2 * index + 1;
+            int right = 2 * index + 2;
+            int largest = index;
+
+            if (left < size && comparator.compare(heap.get(left), heap.get(largest)) > 0) {
                 largest = left;
-            if (right < size && comparator.compare(heap.get(right), heap.get(largest)) > 0)
+            }
+            if (right < size && comparator.compare(heap.get(right), heap.get(largest)) > 0) {
                 largest = right;
+            }
             if (largest == index) break;
+
             swap(index, largest);
             index = largest;
         }
@@ -57,12 +66,17 @@ class MyHeap<T> {
     }
 
     public MyList<T> toSortedList() {
-        MyList<T> result = new MyList<>(new String[]{"java", "programming", "tech"});
+        MyList<T> result = new MyList<>();
         MyHeap<T> copy = new MyHeap<>(comparator);
+
         for (int i = 0; i < heap.size(); i++) {
             copy.add(heap.get(i));
         }
-        while (copy.peek() != null) result.add(copy.poll());
+
+        while (copy.peek() != null) {
+            result.add(copy.poll());
+        }
+
         return result;
     }
 }
