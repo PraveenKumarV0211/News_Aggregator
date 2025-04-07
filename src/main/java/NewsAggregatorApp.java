@@ -1,4 +1,3 @@
-// Updated NewsAggregatorApp to use custom data structures
 
 import java.io.FileInputStream;
 import java.io.InputStream;
