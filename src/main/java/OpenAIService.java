@@ -19,6 +19,9 @@ public class OpenAIService {
     this.service = new OpenAiService(apiKey, Duration.ofSeconds(60));
   }
 
+
+
+
   /**
    * Summarizes article content using OpenAI.
    * 
