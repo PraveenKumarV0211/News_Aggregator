@@ -11,7 +11,7 @@ public class NewsAggregatorApp {
     MyHeap<Article> trendingHeap = new MyHeap<>((a1, a2) -> Integer.compare(a2.popularity, a1.popularity));
 
     private OpenAIService openAIService;
-    private static final String DEFAULT_API_KEY = "your-api-key-here"; // Fallback API key
+    private static final String DEFAULT_API_KEY = "your-api-key-here";
     private Properties config = new Properties();
 
     public NewsAggregatorApp() {
@@ -78,7 +78,7 @@ public class NewsAggregatorApp {
     }
 
     public MyList<Article> getArticlesByKeyword(String keyword) {
-        MyList<Article> result = new MyList<>(new String[]{"java", "programming", "tech"});
+        MyList<Article> result = new MyList<>();
         MySet<Integer> ids = articlesByKeyword.get(keyword);
         if (ids != null) {
             MyList<Integer> idList = ids.getAll();
@@ -93,7 +93,7 @@ public class NewsAggregatorApp {
 
     public MyList<Article> getTopTrendingArticles(int topN) {
         MyList<Article> sorted = trendingHeap.toSortedList();
-        MyList<Article> top = new MyList<>(new String[]{"java", "programming", "tech"});
+        MyList<Article> top = new MyList<>();
         for (int i = 0; i < topN && i < sorted.size(); i++) {
             top.add(sorted.get(i));
         }

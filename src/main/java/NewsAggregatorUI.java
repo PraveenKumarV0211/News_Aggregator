@@ -14,6 +14,19 @@ class NewsAggregatorUI extends javax.swing.JFrame {
     }
 
     private void buildUI() {
+        // 📰 Header panel for newspaper name, date, and location
+        javax.swing.JPanel headerPanel = new javax.swing.JPanel(new java.awt.BorderLayout());
+        javax.swing.JLabel titleLabel = new javax.swing.JLabel("Boston Daily Times", javax.swing.SwingConstants.LEFT);
+        java.time.LocalDate today = java.time.LocalDate.now();
+        javax.swing.JLabel dateLabel = new javax.swing.JLabel("Date: " + today + " | Location: Boston", javax.swing.SwingConstants.RIGHT);
+
+        titleLabel.setFont(new java.awt.Font("Serif", java.awt.Font.BOLD, 24));
+        dateLabel.setFont(new java.awt.Font("SansSerif", java.awt.Font.PLAIN, 14));
+
+        headerPanel.add(titleLabel, java.awt.BorderLayout.WEST);
+        headerPanel.add(dateLabel, java.awt.BorderLayout.EAST);
+
+        // 🔍 Top panel with search and control buttons
         javax.swing.JPanel topPanel = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
         searchField = new javax.swing.JTextField(15);
         javax.swing.JButton searchButton = new javax.swing.JButton("Search Keyword");
@@ -28,13 +41,22 @@ class NewsAggregatorUI extends javax.swing.JFrame {
         topPanel.add(sortByDateButton);
         topPanel.add(sortByPopularityButton);
 
+        // 📰 Article list section
         articleListPanel = new javax.swing.JPanel();
         articleListPanel.setLayout(new javax.swing.BoxLayout(articleListPanel, javax.swing.BoxLayout.Y_AXIS));
         javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(articleListPanel);
 
-        add(topPanel, java.awt.BorderLayout.NORTH);
+        // Combine header + search into a vertical container
+        javax.swing.JPanel northPanel = new javax.swing.JPanel();
+        northPanel.setLayout(new javax.swing.BoxLayout(northPanel, javax.swing.BoxLayout.Y_AXIS));
+        northPanel.add(headerPanel);
+        northPanel.add(topPanel);
+
+        // Add everything to main layout
+        add(northPanel, java.awt.BorderLayout.NORTH);
         add(scrollPane, java.awt.BorderLayout.CENTER);
 
+        // 🔄 Button listeners
         searchButton.addActionListener(
                 e -> loadArticles(app.getArticlesByKeyword(searchField.getText().trim().toLowerCase())));
         showTrendingButton.addActionListener(e -> loadArticles(app.getTopTrendingArticles(3)));
@@ -43,6 +65,7 @@ class NewsAggregatorUI extends javax.swing.JFrame {
 
         loadArticles(app.getAllArticles());
     }
+
 
     private void loadArticles(MyList<Article> articles) {
         articleListPanel.removeAll();
@@ -174,7 +197,6 @@ class NewsAggregatorUI extends javax.swing.JFrame {
             }
         }).start();
 
-        // Get related topics
         new Thread(() -> {
             try {
                 String relatedTopics = app.getRelatedTopics(article);

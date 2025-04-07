@@ -10,7 +10,7 @@ class Article {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.keywords = new MyList<>(new String[]{"java", "programming", "tech"});
+        this.keywords = new MyList<>();
         for (int i = 0; i < keywords.size(); i++) {
             this.keywords.add(keywords.get(i).toLowerCase());
         }

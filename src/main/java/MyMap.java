@@ -25,6 +25,16 @@ class MyMap<K, V> {
         }
         return values;
     }
+    public MyList<K> getKeysInBucket(int index) {
+        MyList<K> keys = new MyList<>();
+        Entry<K, V> node = buckets[index];
+        while (node != null) {
+            keys.add(node.key);
+            node = node.next;
+        }
+        return keys;
+    }
+
 
     private int getIndex(K key) {
         return Math.abs(key.hashCode()) % SIZE;

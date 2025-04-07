@@ -47,7 +47,11 @@ public class ArticleFileLoader {
                 }
 
                 content = contentBuilder.toString().trim();
-                Article article = new Article(id++, title, content, new MyList<>(keywords.toArray(new String[0])), date, popularity);
+                MyList<String> myKeywordList = new MyList<>();
+                for (String keyword : keywords) {
+                    myKeywordList.add(keyword.trim().toLowerCase());
+                }
+                Article article = new Article(id++, title, content, myKeywordList, date, popularity);
                 articles.add(article);
             } catch (Exception e) {
                 System.err.println("Failed to read file: " + file.getName() + " - " + e.getMessage());

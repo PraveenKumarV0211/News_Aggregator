@@ -31,7 +31,7 @@ public class OpenAIService {
 
     // Add user message with the content to summarize
     messages.add(new ChatMessage("user",
-        "Please summarize the following news article in 3-5 sentences: " + content));
+        "Please summarize the following news article in 30 words: " + content));
 
     // Create the completion request
     ChatCompletionRequest request = ChatCompletionRequest.builder()
