@@ -109,11 +109,17 @@ class NewsAggregatorUI extends javax.swing.JFrame {
                 "<html><b>" + article.title + "</b> (" + article.date + ")</html>");
         javax.swing.JButton viewButton = new javax.swing.JButton("View");
 
+        javax.swing.JLabel popularityLabel = new javax.swing.JLabel("🔥 Popularity: " + article.popularity);
+        popularityLabel.setFont(new java.awt.Font("SansSerif", java.awt.Font.ITALIC, 12));
+        popularityLabel.setForeground(java.awt.Color.DARK_GRAY);
+
         viewButton.addActionListener(e -> openEnhancedArticleWindow(article));
 
         javax.swing.JPanel centerPanel = new javax.swing.JPanel();
         centerPanel.setLayout(new javax.swing.BoxLayout(centerPanel, javax.swing.BoxLayout.Y_AXIS));
         centerPanel.add(titleLabel);
+        centerPanel.add(popularityLabel);
+
 
         if (article.keywords != null && article.keywords.size() > 0) {
             StringBuilder keywordStr = new StringBuilder("Keywords: ");
@@ -220,13 +226,11 @@ class NewsAggregatorUI extends javax.swing.JFrame {
         int mid = list.size() / 2;
         MyList<Article> left = new MyList<>();
         MyList<Article> right = new MyList<>();
-
         for (int i = 0; i < mid; i++) left.add(list.get(i));
         for (int i = mid; i < list.size(); i++) right.add(list.get(i));
 
         left = mergeSort(left, sortBy);
         right = mergeSort(right, sortBy);
-
         return merge(left, right, sortBy);
     }
 

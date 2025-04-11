@@ -7,7 +7,7 @@ import java.util.Properties;
 public class NewsAggregatorApp {
     MyMap<Integer, Article> articlesById = new MyMap<>();
     MyMap<String, MySet<Integer>> articlesByKeyword = new MyMap<>();
-    MyHeap<Article> trendingHeap = new MyHeap<>((a1, a2) -> Integer.compare(a2.popularity, a1.popularity));
+    MyHeap<Article> trendingHeap = new MyHeap<>((a1, a2) -> Integer.compare(a1.popularity, a2.popularity));
 
     private OpenAIService openAIService;
     private static final String DEFAULT_API_KEY = "your-api-key-here";
