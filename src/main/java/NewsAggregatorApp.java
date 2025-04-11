@@ -66,14 +66,14 @@ public class NewsAggregatorApp {
     }
 
     public MyList<Article> getAllArticles() {
-        MyList<Article> all = new MyList<>();
+        MyList<Article> allarticles = new MyList<>();
         for (int i = 0; i < articlesById.bucketCount(); i++) {
             MyList<Article> bucket = articlesById.getBucket(i);
             for (int j = 0; j < bucket.size(); j++) {
-                all.add(bucket.get(j));
+                allarticles.add(bucket.get(j));
             }
         }
-        return all;
+        return allarticles;
     }
 
     public MyList<Article> getArticlesByKeyword(String keyword) {

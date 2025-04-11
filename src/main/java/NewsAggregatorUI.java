@@ -214,20 +214,52 @@ class NewsAggregatorUI extends javax.swing.JFrame {
         }).start();
     }
 
-    private void sortAndReload(String sortBy) {
-        MyList<Article> articles = app.getAllArticles();
-        for (int i = 0; i < articles.size(); i++) {
-            for (int j = i + 1; j < articles.size(); j++) {
-                boolean condition = sortBy.equals("date")
-                        ? articles.get(i).date.compareTo(articles.get(j).date) < 0
-                        : articles.get(i).popularity < articles.get(j).popularity;
-                if (!condition) {
-                    Article temp = articles.get(i);
-                    articles.set(i, articles.get(j));
-                    articles.set(j, temp);
-                }
+    private MyList<Article> mergeSort(MyList<Article> list, String sortBy) {
+        if (list.size() <= 1) return list;
+
+        int mid = list.size() / 2;
+        MyList<Article> left = new MyList<>();
+        MyList<Article> right = new MyList<>();
+
+        for (int i = 0; i < mid; i++) left.add(list.get(i));
+        for (int i = mid; i < list.size(); i++) right.add(list.get(i));
+
+        left = mergeSort(left, sortBy);
+        right = mergeSort(right, sortBy);
+
+        return merge(left, right, sortBy);
+    }
+
+    private MyList<Article> merge(MyList<Article> left, MyList<Article> right, String sortBy) {
+        MyList<Article> merged = new MyList<>();
+        int i = 0, j = 0;
+
+        while (i < left.size() && j < right.size()) {
+            Article a = left.get(i);
+            Article b = right.get(j);
+            boolean condition = sortBy.equals("date")
+                    ? a.date.compareTo(b.date) >= 0
+                    : a.popularity >= b.popularity;
+
+            if (condition) {
+                merged.add(a);
+                i++;
+            } else {
+                merged.add(b);
+                j++;
             }
         }
-        loadArticles(articles);
+
+        while (i < left.size()) merged.add(left.get(i++));
+        while (j < right.size()) merged.add(right.get(j++));
+
+        return merged;
     }
+
+    private void sortAndReload(String sortBy) {
+        MyList<Article> articles = app.getAllArticles();
+        MyList<Article> sorted = mergeSort(articles, sortBy);
+        loadArticles(sorted);
+    }
+
 }
